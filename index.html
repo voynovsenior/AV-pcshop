@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AV shop — сборка ПК на заказ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Переменные ===== */
+:root{--bg:#0a0a0f;--card:#12121a;--line:#23232f;--text:#e8e8f0;--mute:#8a8a9c;--acc:#00ff88;--acc2:#00d4ff}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.5}
+a{color:inherit;text-decoration:none}
+section{padding:80px 20px;max-width:1200px;margin:0 auto}
+h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:36px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+
+/* ===== Хедер ===== */
+header{position:sticky;top:0;z-index:10;background:rgba(10,10,15,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:1.3rem}.logo b{color:var(--acc)}
+nav a{margin-left:24px;color:var(--mute);transition:color .2s}
+nav a:hover{color:var(--acc)}
+
+/* ===== Кнопки ===== */
+.btn{display:inline-block;padding:14px 26px;border-radius:10px;font-weight:500;border:1px solid var(--acc);transition:.25s}
+.btn.main{background:var(--acc);color:#04120b}
+.btn.main:hover{box-shadow:0 0 28px rgba(0,255,136,.5);transform:translateY(-2px)}
+.btn.ghost{color:var(--acc)}
+.btn.ghost:hover{background:rgba(0,255,136,.1);transform:translateY(-2px)}
+
+/* ===== Hero: анимированный градиент ===== */
+.hero{position:relative;overflow:hidden;text-align:center;padding:130px 20px 110px;max-width:none}
+.hero::before,.hero::after{content:"";position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(110px);opacity:.28;z-index:-1;animation:float 14s ease-in-out infinite alternate}
+.hero::before{background:var(--acc);left:-120px;top:-80px}
+.hero::after{background:var(--acc2);right:-120px;bottom:-120px;animation-delay:-7s}
+@keyframes float{to{transform:translate(120px,70px) scale(1.2)}}
+.hero h1{font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.05;letter-spacing:-.03em;max-width:900px;margin:0 auto 20px}
+.hero p{color:var(--mute);font-size:1.15rem;max-width:620px;margin:0 auto 36px}
+.hero .btn{margin:6px}
+
+/* ===== Сетки и карточки ===== */
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.card:hover{border-color:var(--acc);box-shadow:0 0 26px rgba(0,255,136,.18)}
+.card img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:#1a1a2e}
+.body{padding:22px}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:16px}
+.head h3{font-size:1.35rem}
+.price{color:var(--acc);font-weight:700;font-size:1.25rem;white-space:nowrap}
+.spec{list-style:none;padding:0}
+.spec li{padding:9px 0;border-top:1px solid var(--line);font-size:.92rem}
+.spec span{display:block;color:var(--mute);font-size:.8rem;margin-bottom:4px}
+/* Варианты комплектующих — чипсы */
+.opt{font:inherit;cursor:pointer;display:inline-block;padding:4px 11px;border-radius:6px;background:transparent;border:1px solid var(--line);color:var(--mute);margin:2px 4px 2px 0;text-align:left;transition:.2s}
+.opt:hover{border-color:var(--acc2);color:var(--text)}
+.opt[aria-checked=true]{background:rgba(0,212,255,.12);border-color:var(--acc2);color:var(--acc2);box-shadow:0 0 12px rgba(0,212,255,.25)}
+.order{display:block;text-align:center;margin-top:18px;width:100%}
+.or{color:var(--mute);font-size:.8rem;margin-right:4px}
+.plain{color:var(--text)}
+
+/* ===== Услуги ===== */
+.svc{padding:26px}
+.svc h3{margin-bottom:8px}.svc p{color:var(--mute);font-size:.92rem;margin-bottom:18px}
+
+/* ===== Шаги ===== */
+.steps{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));list-style:none;padding:0;counter-reset:s}
+.steps li{counter-increment:s;padding:26px;border-left:2px solid var(--acc);background:var(--card);border-radius:0 12px 12px 0}
+.steps li::before{content:counter(s);display:block;font-size:2rem;font-weight:700;color:var(--acc);margin-bottom:6px}
+
+/* ===== Футер ===== */
+footer{border-top:1px solid var(--line);text-align:center;padding:70px 20px 40px}
+footer h2{margin-bottom:20px}
+.contacts a.line{display:block;font-size:1.2rem;margin:8px 0;color:var(--acc2)}
+.contacts a.line:hover{color:var(--acc)}
+.copy{color:var(--mute);margin-top:44px;font-size:.88rem}
+
+/* ===== Появление при скролле ===== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+@media (max-width:640px){nav a{margin-left:14px}.grid{grid-template-columns:1fr}section{padding:60px 16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- Липкий хедер -->
+<header><div class="nav">
+  <a class="logo" href="#top">AV<b> shop</b></a>
+  <nav><a href="#builds">Сборки</a><a href="#services">Услуги</a><a href="#contacts">Контакты</a></nav>
+</div></header>
+
+<!-- Hero -->
+<div class="hero" id="top">
+  <h1>AV shop — соберу ПК под тебя</h1>
+  <p>От бюджетного гейминга до компактных ITX-сборок. Предоплата 50%, гарантия на сборку</p>
+  <a class="btn main" href="#builds">Посмотреть сборки</a>
+  <a class="btn ghost" href="https://t.me/AV_pcshop" target="_blank" rel="noopener">Написать в Telegram</a>
+</div>
+
+<!-- Сборки (карточки создаются скриптом ниже из массива BUILDS) -->
+<section id="builds">
+  <h2 class="reveal">Сборки</h2>
+  <div class="grid" id="buildGrid"></div>
+</section>
+
+<!-- Услуги -->
+<section id="services">
+  <h2 class="reveal">Услуги</h2>
+  <div class="grid">
+    <div class="card svc reveal"><h3>Сборка под ключ</h3><p>Вы покупаете комплектующие — мы собираем для вас</p><span class="price">4 990 ₽</span></div>
+    <div class="card svc reveal"><h3>Настройка Windows и драйверов</h3><p>Установка системы, драйверов и нужных программ</p><span class="price">1 490 ₽</span></div>
+    <div class="card svc reveal"><h3>Замена термопасты</h3><p>Бесплатная чистка в комплекте</p><span class="price">1 990 ₽</span></div>
+  </div>
+</section>
+
+<!-- Как я работаю -->
+<section id="how">
+  <h2 class="reveal">Как я работаю</h2>
+  <ol class="steps">
+    <li class="reveal">Ты пишешь мне бюджет и задачи</li>
+    <li class="reveal">Я подбираю комплектующие и называю цену</li>
+    <li class="reveal">Предоплата 50% — я закупаю и собираю</li>
+    <li class="reveal">Отдаю готовый ПК, ты проверяешь и доплачиваешь остаток</li>
+  </ol>
+</section>
+
+<!-- Футер / Контакты -->
+<footer id="contacts"><div class="contacts">
+  <h2>Контакты</h2>
+  <a class="line" href="tel:+79685271399">+7 968 527-13-99</a>
+  <a class="line" href="https://t.me/AV_pcshop" target="_blank" rel="noopener">@AV_pcshop</a>
+  <br><a class="btn main" href="https://t.me/AV_pcshop" target="_blank" rel="noopener">Написать в Telegram</a>
+  <p class="copy">AV shop • Сборка ПК на заказ • 2026</p>
+</div></footer>
+
+<script>
+/* Данные сборок. Варианты через «|» — выделяются чипсами.
+   img: ЗАМЕНИТЕ заглушки placehold.co на реальные фото (прямые ссылки Unsplash/Pexels или свои файлы).
+   Для «Малыша» нужно фото компактного ITX-корпуса. */
+const ph = t => `https://placehold.co/600x400/1a1a2e/00ff88?text=${encodeURIComponent(t)}`;
+const BUILDS = [
+ {n:'Старт',p:'69 990 ₽',img:ph('AV shop — Старт'),s:[
+  ['Процессор','Intel Core i3-14100F|AMD Ryzen 5 5500'],
+  ['Материнская плата','MSI PRO H610M-S DDR4|A520M/B550M'],
+  ['Оперативная память','16 ГБ DDR4-3200 (2×8)'],
+  ['Видеокарта','б/у GTX 1660 Super 6GB|RX 580 8GB'],
+  ['Накопитель','SSD 512 ГБ Netac/Kingston'],
+  ['Блок питания','550 Вт DeepCool'],
+  ['Корпус','простой продуваемый']]},
+ {n:'Народный',p:'84 990 ₽',img:ph('AV shop — Народный'),s:[
+  ['Процессор','Intel Core i5-12400F|AMD Ryzen 5 5600'],
+  ['Материнская плата','B760M DDR4|B550M'],
+  ['Оперативная память','16 ГБ DDR4-3200'],
+  ['Видеокарта','RTX 5050|б/у RTX 3060|RX 6600'],
+  ['Накопитель','SSD 1 ТБ NVMe'],
+  ['Блок питания','650 Вт Bronze'],
+  ['Корпус','простой продуваемый']]},
+ {n:'Для геймеров',p:'109 990 ₽',img:ph('AV shop — Для геймеров'),s:[
+  ['Процессор','Intel Core i5-12400F|AMD Ryzen 5 7500F'],
+  ['Материнская плата','ASRock B760M PG Lightning/D4|MSI PRO B650-S WIFI'],
+  ['Оперативная память','32 ГБ DDR4-3200 ADATA XPG|16 ГБ DDR5-5600'],
+  ['Видеокарта','RTX 5060 8GB'],
+  ['Накопитель','SSD 1 ТБ Patriot P320'],
+  ['Блок питания','650 Вт ADATA PYLON|750 Вт DeepCool'],
+  ['Корпус','Iron Pride INVADER Q3S']]},
+ {n:'Райзен',p:'119 990 ₽',img:ph('AV shop — Райзен'),s:[
+  ['Процессор','AMD Ryzen 5 7500F|Intel Core i5-13400F'],
+  ['Материнская плата','MSI PRO B650-S WIFI|B760M DDR4'],
+  ['Оперативная память','16 ГБ DDR5-5600|32 ГБ DDR4-3200'],
+  ['Видеокарта','RTX 5060 8GB'],
+  ['Накопитель','SSD 1 ТБ ADATA Legend 900 Pro'],
+  ['Блок питания','750 Вт DeepCool'],
+  ['Корпус','простой продуваемый']]},
+ {n:'Малыш',p:'99 990 ₽',img:ph('AV shop — Малыш (ITX)'),s:[
+  ['Процессор','AMD Ryzen 5 8400F|Intel Core i5-12400F'],
+  ['Материнская плата','MAXSUN B650ITX|H610 ITX'],
+  ['Оперативная память','32 ГБ DDR5 CUSU (low-profile)|16 ГБ DDR4'],
+  ['Видеокарта','RTX 5060 Zotac SOLO'],
+  ['Накопитель','SSD 1 ТБ'],
+  ['Блок питания','Flex ATX 600W'],
+  ['Корпус','SKTC A07 (4.2 л)']]}
+];
+
+/* Рендер карточек */
+document.getElementById('buildGrid').innerHTML = BUILDS.map(b => `
+ <article class="card reveal">
+  <img src="${b.img}" alt="Игровой ПК — сборка «${b.n}»" loading="lazy">
+  <div class="body">
+   <div class="head"><h3>${b.n}</h3><span class="price">${b.p}</span></div>
+   <ul class="spec">${b.s.map(([k,v]) => {
+     const o = v.split('|');
+     const html = o.length > 1
+       ? '<span role="radiogroup">'+o.map((x,i) => `<button type="button" role="radio" aria-checked="${i==0}" class="opt">${x}</button>`).join('<span class="or">или</span>')+'</span>'
+       : `<span class="plain">${v}</span>`;
+     return `<li><span>${k}</span>${html}</li>`;
+   }).join('')}</ul>
+   <a class="btn main order" data-name="${b.n}" data-price="${b.p}" href="#" target="_blank" rel="noopener">Заказать эту конфигурацию</a>
+  </div>
+ </article>`).join('');
+
+/* Выбор вариантов комплектующих + ссылка заказа в Telegram с выбранной конфигурацией */
+function updateOrder(card){
+  const lines = [...card.querySelectorAll('.spec li')].map(li => {
+    const sel = li.querySelector('.opt[aria-checked=true]');
+    return li.firstChild.textContent + ': ' + (sel ? sel.textContent : li.querySelector('.plain').textContent);
+  });
+  const a = card.querySelector('.order');
+  const text = `Привет! Хочу сборку «${a.dataset.name}» (${a.dataset.price}):\n` + lines.join('\n');
+  a.href = 'https://t.me/AV_pcshop?text=' + encodeURIComponent(text);
+}
+document.querySelectorAll('#buildGrid .card').forEach(updateOrder);
+document.getElementById('buildGrid').addEventListener('click', e => {
+  const b = e.target.closest('.opt'); if (!b) return;
+  b.parentElement.querySelectorAll('.opt').forEach(x => x.setAttribute('aria-checked', x === b));
+  updateOrder(b.closest('.card'));
+});
+
+/* Анимация появления при скролле */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
